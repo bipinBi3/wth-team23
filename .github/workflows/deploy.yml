@@ -1,0 +1,25 @@
+name: DeployInfrastructure
+run-name: Deploy infra using github actions
+on:
+ workflow_dispatch:
+    inputs:
+      name:
+        description: "Who to greet"
+        default: "World"
+jobs:
+  DeployInfra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Login to Azure using Service Principal
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.SP_CRED }}' 
+      - name: deploy bicep file
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{ secrets.AZURE_RG }}
+          template: './InfrastructureAsCode/main.bicep'
+          failOnStdErr: false
