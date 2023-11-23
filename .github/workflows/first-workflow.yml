@@ -8,7 +8,17 @@ on:
         default: "World"
 jobs:
   Job1:
+    name: Echo
     runs-on: ubuntu-latest
     steps:
       - run: echo "Step 1"
       - run: echo "Step 2"
+  Job2:
+    name: Cowsays
+    runs-on: ubuntu-latest
+    steps:
+    - name: Ship it
+      uses: mscoutermarsh/cowsays-action@master
+      with:
+        text: 'ship ship ship!'
+        color: 'red'
